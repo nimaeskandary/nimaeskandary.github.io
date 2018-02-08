@@ -16,17 +16,20 @@
 title: Nima Eskandary's Blog
 email: nimaesk1@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Nima Eskandary's blog
+  Not a big blogger but I'll try it out
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://nimaeskandary.com" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: nimaeskandary
 github_username:  nimaeskandary
+linkedin_username: nimaeskandary
 
 # Build settings
 markdown: kramdown
 theme: minima
 plugins:
   - jekyll-feed
+
+google_analytics: UA-1234567-8
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
