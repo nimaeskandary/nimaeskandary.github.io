@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-02-08T00:02:34-05:00</updated><id>http://localhost:4000/</id><title type="html">Nima Eskandary’s Blog</title><subtitle>A place where I can try out blogging, will post experiences with tech and tools as I use them, and whatever else I can think of to post</subtitle><entry><title type="html">First Post!</title><link href="http://localhost:4000/2018/02/07/first-post.html" rel="alternate" type="text/html" title="First Post!" /><published>2018-02-07T00:00:00-05:00</published><updated>2018-02-07T00:00:00-05:00</updated><id>http://localhost:4000/2018/02/07/first-post</id><content type="html" xml:base="http://localhost:4000/2018/02/07/first-post.html">&lt;p&gt;I’ve never been a blogger before but thought I’d try it out (mostly because I wanted play around with aws)&lt;/p&gt;
-
-&lt;p&gt;I will make a future post with more details, but this site is hosted on Github Pages, and I use Route 53 and CloudFront for my custom domain&lt;/p&gt;
-
-&lt;p&gt;It took a couple hours to set this up, and all the annoying kinks along the way make me want to end this first post early&lt;/p&gt;
-
-&lt;p&gt;Best,&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Nima&lt;/em&gt;&lt;/p&gt;</content><author><name></name></author><summary type="html">I’ve never been a blogger before but thought I’d try it out (mostly because I wanted play around with aws)</summary></entry></feed>
