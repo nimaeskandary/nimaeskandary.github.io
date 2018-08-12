@@ -16,11 +16,11 @@
 title: Nima Eskandary's Blog
 email: nimaesk1@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  A place where I can try out blogging
+
 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://nimaeskandary.com" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: nimaeskandary
+twitter_username: _findingnima
 github_username:  nimaeskandary
 linkedin_username: nimaeskandary
 
