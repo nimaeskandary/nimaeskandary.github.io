@@ -14,11 +14,11 @@ date:   2018-02-11
 
 ## $$
 
-Cost-wise this blog is relatively cheap to maintain. Registering your custom domain will cost you around $12 annually, and then Route 53 and CloudFront will likely fall in the free tier depending on your traffic. Github Pages is free. 
+Cost-wise this blog is free to maintain. Registering your custom domain will cost you around $12 annually, and then Route 53 and CloudFront will likely fall in the free tier depending on your traffic. Github Pages is free.
 
 ## Hosting a site on Github Pages
 
-Github pages allows you to host websites through static files (you'll need an index.html at least in the root of the repo), or a Jekyll template.
+Github pages allows you to host websites through static files (you'll need an index.html at least in the root of the repo), or a Jekyll template which Github Pages will auto-build.
 
 1. Make a new repository on Github named `your-account.github.io`, this part is important because it will be your user lever repository, and will be accessible at `your-account.github.io`
 1. In the settings of your repo, turn on Github Pages. You don't need to tell it you're using a custom domain here, things will work fine the way it defaults
@@ -35,7 +35,7 @@ While Github hosts my static site for free at `nimaeskandary.github.io` already,
 
 ## Provisioning your SSL/TLS cert
 
-Though no one will be sending passwords or credit card numbers on my site, the certs are free and it is becoming more and more commonplace to block HTTP traffic unless it is encrypted through HTTPS. 
+Though no one will be sending passwords or credit card numbers on my site, the certs are free and it is becoming more and more commonplace to block HTTP traffic unless it is encrypted through HTTPS.
 
 1. In the [AWS management console](console.aws.amazon.com), set your top right data center to `US EAST (N. Virginia)`. This is important because CloudFront only uses certs stored there, and AWS will store your cert in the data center you are connected to.
 1. Search for the service `Certificate Manager`
@@ -48,7 +48,7 @@ While you could make a CNAME record that routes `www.you-domain.com` to `your-ac
 
 * It will allow `base-domain.com`, to also point to the right place, because your root zone cannot be a CNAME, but AWS lets you have it point to a CloudFront distribution through a special `alias` record
 
-* It will allow you to also serve your SSL/TLS cert, without is people couldn't use HTTPS on your custom domain
+* It will allow you to also serve your SSL/TLS cert, without it people couldn't use HTTPS on your custom domain
 
 1. In the [AWS management console](console.aws.amazon.com), search for CloudFront
 1. Set up a new "Web" distribution
@@ -57,9 +57,9 @@ While you could make a CNAME record that routes `www.you-domain.com` to `your-ac
 1. For `viewer protocol policy` I personally `redirect HTTP to HTTPS`
 1. For `allowed HTTP methods` do `GET, HEAD, OPTIONS`
 1. I change the `default TTL` to 0 because I want people to see my updates right away
-1. In `price class` I only use US, Canada, and Europe because they are technically the cheapest, but to be honest you wouldn't notice the extra pennies if you chose the best performance option, and you'll probably be in the free tier anyway
+1. In `price class` I only use US, Canada, and Europe, really any option is fine
 1. For `alternate domain names (CNAMEs)` you'll want any address you think you'll use. I put down `nimaeskandary.com`, `www.nimaeskandary.com`, and `blog.nimaeskandary.com`
-1. Choose the Custom SSL/TLS cert we made
+1. Choose the Custom SSL/TLS cert we made earlier
 1. And that's it, it should take about 15 minutes for it to spin up once you click the finish button
 
 ## Creating your DNS records
@@ -71,5 +71,4 @@ While you could make a CNAME record that routes `www.you-domain.com` to `your-ac
 
 ---
 
-And that's it, hope this was helpful
-
+All done, hope this was helpful. If this gets outdated feel free to shoot me an email
