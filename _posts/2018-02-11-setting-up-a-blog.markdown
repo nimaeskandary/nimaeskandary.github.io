@@ -8,7 +8,7 @@ date:   2018-02-11
 
 * AWS Route 53 (DNS management)
 * AWS CloudFront (CDN)
-* AWS Certificate Manager (TLS certificate provisioning)
+* AWS Certificate Manager (SSL certificate provisioning)
 * Github Pages (Static site hosting)
 * Jekyll (Static site generator)
 
@@ -28,16 +28,16 @@ Github pages allows you to host websites through static files (you'll need an in
 
 While Github hosts my static site for free at `nimaeskandary.github.io` already, I wanted to buy `nimaeskandary.com` before another Nima Eskandary got any ideas.
 
-1. Log into the [AWS management console](console.aws.amazon.com)
+1. Log into the [AWS management console](https://aws.amazon.com/console)
 1. Search for the service `Route 53`
 1. On the left sidebar, under Domains, go to `Registered Domains`
 1. Register the domain you want, it took about 10 minutes for my registration to go through. The exact domain I registered was `nimaeskandary.com`
 
-## Provisioning your SSL/TLS cert
+## Provisioning your SSL cert
 
-Though no one will be sending passwords or credit card numbers on my site, the certs are free and it is becoming more and more commonplace to block HTTP traffic unless it is encrypted through HTTPS.
+It is becoming more and more commonplace to block non HTTPS traffic.
 
-1. In the [AWS management console](console.aws.amazon.com), set your top right data center to `US EAST (N. Virginia)`. This is important because CloudFront only uses certs stored there, and AWS will store your cert in the data center you are connected to.
+1. In the [AWS management console](https://aws.amazon.com/console), set your top right data center to `US EAST (N. Virginia)`. This is important because CloudFront only uses certs stored there, and AWS will store your cert in the data center you are connected to.
 1. Search for the service `Certificate Manager`
 1. You'll want to add two domain names, `base-domain.com`, in my case this was `nimaeskandary.com`, and `*.base-domain.com`, the wild card is so you can use the cert for any records in your zone, e.g. `www.base-domain.com`, `blog.base-domain.com`
 1. When asked, verify that you own the domain through the DNS option, it is very easy and all it will have you do is make a CNAME record in Route 53
@@ -48,9 +48,9 @@ While you could make a CNAME record that routes `www.you-domain.com` to `your-ac
 
 * It will allow `base-domain.com`, to also point to the right place, because your root zone cannot be a CNAME, but AWS lets you have it point to a CloudFront distribution through a special `alias` record
 
-* It will allow you to also serve your SSL/TLS cert, without it people couldn't use HTTPS on your custom domain
+* It will allow you to also serve your SSL cert, without it people couldn't use HTTPS on your custom domain
 
-1. In the [AWS management console](console.aws.amazon.com), search for CloudFront
+1. In the [AWS management console](https://aws.amazon.com/console), search for CloudFront
 1. Set up a new "Web" distribution
 1. For the `origin domain name`, put the Github pages domain, in my case it was `nimaeskandary.github.io`
 1. For `origin path` don't put anything
@@ -59,12 +59,12 @@ While you could make a CNAME record that routes `www.you-domain.com` to `your-ac
 1. I change the `default TTL` to 0 because I want people to see my updates right away
 1. In `price class` I only use US, Canada, and Europe, really any option is fine
 1. For `alternate domain names (CNAMEs)` you'll want any address you think you'll use. I put down `nimaeskandary.com`, `www.nimaeskandary.com`, and `blog.nimaeskandary.com`
-1. Choose the Custom SSL/TLS cert we made earlier
+1. Choose the Custom SSL cert we made earlier
 1. And that's it, it should take about 15 minutes for it to spin up once you click the finish button
 
 ## Creating your DNS records
 
-1. In the [AWS management console](console.aws.amazon.com), search for Route 53
+1. In the [AWS management console](https://aws.amazon.com/console), search for Route 53
 1. Create an alias record, with no added record name, this will just make the record named `your-domain.com`
 1. Have the alias record point to your CloudFront domain name, this can be found in the CloudFront management page for the distribution you just made, and will be something like `dn542fesffj83.cloudfront.net`
 1. Optionally, you can also create a CNAME record named `www.`, that points to `your-domain.com`, that way both `www.your-domain.com` and `your-domain.com` work. I also added a `blog.` record as well

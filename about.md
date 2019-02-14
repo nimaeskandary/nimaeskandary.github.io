@@ -10,4 +10,5 @@ Computer Science Major at Drexel University, class of 2019. Currently work part-
 
 ## After I Graduate
 
-Comcast CORE Technology Associate, a two-year long rotational program. The first being a one-year assignment to a SE team, with two six-month assignments afterwards.
+Comcast CORE Technology Associate, a two-year long rotational program
+
