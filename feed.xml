@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.2">Jekyll</generator><link href="https://nimaeskandary.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://nimaeskandary.com/" rel="alternate" type="text/html" /><updated>2019-02-13T22:17:12-05:00</updated><id>https://nimaeskandary.com/</id><title type="html">Nima Eskandary’s Blog</title><subtitle></subtitle><entry><title type="html">Setting Up a Blog with Github Pages, Route 53, and CloudFront</title><link href="https://nimaeskandary.com/2018/02/11/setting-up-a-blog.html" rel="alternate" type="text/html" title="Setting Up a Blog with Github Pages, Route 53, and CloudFront" /><published>2018-02-11T00:00:00-05:00</published><updated>2018-02-11T00:00:00-05:00</updated><id>https://nimaeskandary.com/2018/02/11/setting-up-a-blog</id><content type="html" xml:base="https://nimaeskandary.com/2018/02/11/setting-up-a-blog.html">&lt;h2 id=&quot;tools&quot;&gt;Tools&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;AWS Route 53 (DNS management)&lt;/li&gt;
+  &lt;li&gt;AWS CloudFront (CDN)&lt;/li&gt;
+  &lt;li&gt;AWS Certificate Manager (SSL certificate provisioning)&lt;/li&gt;
+  &lt;li&gt;Github Pages (Static site hosting)&lt;/li&gt;
+  &lt;li&gt;Jekyll (Static site generator)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;$$&lt;/h2&gt;
+
+&lt;p&gt;Cost-wise this blog is free to maintain. Registering your custom domain will cost you around $12 annually, and then Route 53 and CloudFront will likely fall in the free tier depending on your traffic. Github Pages is free.&lt;/p&gt;
+
+&lt;h2 id=&quot;hosting-a-site-on-github-pages&quot;&gt;Hosting a site on Github Pages&lt;/h2&gt;
+
+&lt;p&gt;Github pages allows you to host websites through static files (you’ll need an index.html at least in the root of the repo), or a Jekyll template which Github Pages will auto-build.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Make a new repository on Github named &lt;code class=&quot;highlighter-rouge&quot;&gt;your-account.github.io&lt;/code&gt;, this part is important because it will be your user lever repository, and will be accessible at &lt;code class=&quot;highlighter-rouge&quot;&gt;your-account.github.io&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;In the settings of your repo, turn on Github Pages. You don’t need to tell it you’re using a custom domain here, things will work fine the way it defaults&lt;/li&gt;
+  &lt;li&gt;You can either pick a theme right from the suggestions it gives you or try to figure that part on your own. I use the default Jekyll theme &lt;code class=&quot;highlighter-rouge&quot;&gt;minima&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;registering-your-domain&quot;&gt;Registering your domain&lt;/h2&gt;
+
+&lt;p&gt;While Github hosts my static site for free at &lt;code class=&quot;highlighter-rouge&quot;&gt;nimaeskandary.github.io&lt;/code&gt; already, I wanted to buy &lt;code class=&quot;highlighter-rouge&quot;&gt;nimaeskandary.com&lt;/code&gt; before another Nima Eskandary got any ideas.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Log into the &lt;a href=&quot;https://aws.amazon.com/console&quot;&gt;AWS management console&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Search for the service &lt;code class=&quot;highlighter-rouge&quot;&gt;Route 53&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;On the left sidebar, under Domains, go to &lt;code class=&quot;highlighter-rouge&quot;&gt;Registered Domains&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Register the domain you want, it took about 10 minutes for my registration to go through. The exact domain I registered was &lt;code class=&quot;highlighter-rouge&quot;&gt;nimaeskandary.com&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;provisioning-your-ssl-cert&quot;&gt;Provisioning your SSL cert&lt;/h2&gt;
+
+&lt;p&gt;It is becoming more and more commonplace to block non HTTPS traffic.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;In the &lt;a href=&quot;https://aws.amazon.com/console&quot;&gt;AWS management console&lt;/a&gt;, set your top right data center to &lt;code class=&quot;highlighter-rouge&quot;&gt;US EAST (N. Virginia)&lt;/code&gt;. This is important because CloudFront only uses certs stored there, and AWS will store your cert in the data center you are connected to.&lt;/li&gt;
+  &lt;li&gt;Search for the service &lt;code class=&quot;highlighter-rouge&quot;&gt;Certificate Manager&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;You’ll want to add two domain names, &lt;code class=&quot;highlighter-rouge&quot;&gt;base-domain.com&lt;/code&gt;, in my case this was &lt;code class=&quot;highlighter-rouge&quot;&gt;nimaeskandary.com&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;*.base-domain.com&lt;/code&gt;, the wild card is so you can use the cert for any records in your zone, e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;www.base-domain.com&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;blog.base-domain.com&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;When asked, verify that you own the domain through the DNS option, it is very easy and all it will have you do is make a CNAME record in Route 53&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;setting-up-cloudfront&quot;&gt;Setting up CloudFront&lt;/h2&gt;
+
+&lt;p&gt;While you could make a CNAME record that routes &lt;code class=&quot;highlighter-rouge&quot;&gt;www.you-domain.com&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;your-account.github.io&lt;/code&gt; and be done with it, using CloudFront offers a few advantages:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;It will allow &lt;code class=&quot;highlighter-rouge&quot;&gt;base-domain.com&lt;/code&gt;, to also point to the right place, because your root zone cannot be a CNAME, but AWS lets you have it point to a CloudFront distribution through a special &lt;code class=&quot;highlighter-rouge&quot;&gt;alias&lt;/code&gt; record&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;It will allow you to also serve your SSL cert, without it people couldn’t use HTTPS on your custom domain&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;In the &lt;a href=&quot;https://aws.amazon.com/console&quot;&gt;AWS management console&lt;/a&gt;, search for CloudFront&lt;/li&gt;
+  &lt;li&gt;Set up a new “Web” distribution&lt;/li&gt;
+  &lt;li&gt;For the &lt;code class=&quot;highlighter-rouge&quot;&gt;origin domain name&lt;/code&gt;, put the Github pages domain, in my case it was &lt;code class=&quot;highlighter-rouge&quot;&gt;nimaeskandary.github.io&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;For &lt;code class=&quot;highlighter-rouge&quot;&gt;origin path&lt;/code&gt; don’t put anything&lt;/li&gt;
+  &lt;li&gt;For &lt;code class=&quot;highlighter-rouge&quot;&gt;viewer protocol policy&lt;/code&gt; I personally &lt;code class=&quot;highlighter-rouge&quot;&gt;redirect HTTP to HTTPS&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;For &lt;code class=&quot;highlighter-rouge&quot;&gt;allowed HTTP methods&lt;/code&gt; do &lt;code class=&quot;highlighter-rouge&quot;&gt;GET, HEAD, OPTIONS&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;I change the &lt;code class=&quot;highlighter-rouge&quot;&gt;default TTL&lt;/code&gt; to 0 because I want people to see my updates right away&lt;/li&gt;
+  &lt;li&gt;In &lt;code class=&quot;highlighter-rouge&quot;&gt;price class&lt;/code&gt; I only use US, Canada, and Europe, really any option is fine&lt;/li&gt;
+  &lt;li&gt;For &lt;code class=&quot;highlighter-rouge&quot;&gt;alternate domain names (CNAMEs)&lt;/code&gt; you’ll want any address you think you’ll use. I put down &lt;code class=&quot;highlighter-rouge&quot;&gt;nimaeskandary.com&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;www.nimaeskandary.com&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;blog.nimaeskandary.com&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Choose the Custom SSL cert we made earlier&lt;/li&gt;
+  &lt;li&gt;And that’s it, it should take about 15 minutes for it to spin up once you click the finish button&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;creating-your-dns-records&quot;&gt;Creating your DNS records&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;In the &lt;a href=&quot;https://aws.amazon.com/console&quot;&gt;AWS management console&lt;/a&gt;, search for Route 53&lt;/li&gt;
+  &lt;li&gt;Create an alias record, with no added record name, this will just make the record named &lt;code class=&quot;highlighter-rouge&quot;&gt;your-domain.com&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Have the alias record point to your CloudFront domain name, this can be found in the CloudFront management page for the distribution you just made, and will be something like &lt;code class=&quot;highlighter-rouge&quot;&gt;dn542fesffj83.cloudfront.net&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Optionally, you can also create a CNAME record named &lt;code class=&quot;highlighter-rouge&quot;&gt;www.&lt;/code&gt;, that points to &lt;code class=&quot;highlighter-rouge&quot;&gt;your-domain.com&lt;/code&gt;, that way both &lt;code class=&quot;highlighter-rouge&quot;&gt;www.your-domain.com&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;your-domain.com&lt;/code&gt; work. I also added a &lt;code class=&quot;highlighter-rouge&quot;&gt;blog.&lt;/code&gt; record as well&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;All done, hope this was helpful. If this gets outdated feel free to shoot me an email&lt;/p&gt;</content><author><name></name></author><summary type="html">Tools</summary></entry></feed>

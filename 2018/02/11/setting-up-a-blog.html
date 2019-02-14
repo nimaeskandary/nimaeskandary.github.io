@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>Setting Up a Blog with Github Pages, Route 53, and CloudFront | Nima Eskandary’s Blog</title>
+<meta name="generator" content="Jekyll v3.7.2" />
+<meta property="og:title" content="Setting Up a Blog with Github Pages, Route 53, and CloudFront" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Tools" />
+<meta property="og:description" content="Tools" />
+<link rel="canonical" href="https://nimaeskandary.com/2018/02/11/setting-up-a-blog.html" />
+<meta property="og:url" content="https://nimaeskandary.com/2018/02/11/setting-up-a-blog.html" />
+<meta property="og:site_name" content="Nima Eskandary’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-02-11T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://nimaeskandary.com/2018/02/11/setting-up-a-blog.html","headline":"Setting Up a Blog with Github Pages, Route 53, and CloudFront","dateModified":"2018-02-11T00:00:00-05:00","datePublished":"2018-02-11T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nimaeskandary.com/2018/02/11/setting-up-a-blog.html"},"description":"Tools","@type":"BlogPosting","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link type="application/atom+xml" rel="alternate" href="https://nimaeskandary.com/feed.xml" title="Nima Eskandary's Blog" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113781146-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-113781146-1');
+  </script>
+</head>
+
+
+  <body>
+
+    <header class="site-header" role="banner">
+
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/">Nima Eskandary&#39;s Blog</a>
+
+    
+      <nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+          
+            
+            
+          
+            
+            
+            <a class="page-link" href="/about/">About</a>
+            
+          
+            
+            
+          
+            
+            
+          
+            
+            
+          
+        </div>
+      </nav>
+    
+  </div>
+</header>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Setting Up a Blog with Github Pages, Route 53, and CloudFront</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-02-11T00:00:00-05:00" itemprop="datePublished">
+        
+        Feb 11, 2018
+      </time>
+      </p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="tools">Tools</h2>
+
+<ul>
+  <li>AWS Route 53 (DNS management)</li>
+  <li>AWS CloudFront (CDN)</li>
+  <li>AWS Certificate Manager (SSL certificate provisioning)</li>
+  <li>Github Pages (Static site hosting)</li>
+  <li>Jekyll (Static site generator)</li>
+</ul>
+
+<h2>$$</h2>
+
+<p>Cost-wise this blog is free to maintain. Registering your custom domain will cost you around $12 annually, and then Route 53 and CloudFront will likely fall in the free tier depending on your traffic. Github Pages is free.</p>
+
+<h2 id="hosting-a-site-on-github-pages">Hosting a site on Github Pages</h2>
+
+<p>Github pages allows you to host websites through static files (you’ll need an index.html at least in the root of the repo), or a Jekyll template which Github Pages will auto-build.</p>
+
+<ol>
+  <li>Make a new repository on Github named <code class="highlighter-rouge">your-account.github.io</code>, this part is important because it will be your user lever repository, and will be accessible at <code class="highlighter-rouge">your-account.github.io</code></li>
+  <li>In the settings of your repo, turn on Github Pages. You don’t need to tell it you’re using a custom domain here, things will work fine the way it defaults</li>
+  <li>You can either pick a theme right from the suggestions it gives you or try to figure that part on your own. I use the default Jekyll theme <code class="highlighter-rouge">minima</code></li>
+</ol>
+
+<h2 id="registering-your-domain">Registering your domain</h2>
+
+<p>While Github hosts my static site for free at <code class="highlighter-rouge">nimaeskandary.github.io</code> already, I wanted to buy <code class="highlighter-rouge">nimaeskandary.com</code> before another Nima Eskandary got any ideas.</p>
+
+<ol>
+  <li>Log into the <a href="https://aws.amazon.com/console">AWS management console</a></li>
+  <li>Search for the service <code class="highlighter-rouge">Route 53</code></li>
+  <li>On the left sidebar, under Domains, go to <code class="highlighter-rouge">Registered Domains</code></li>
+  <li>Register the domain you want, it took about 10 minutes for my registration to go through. The exact domain I registered was <code class="highlighter-rouge">nimaeskandary.com</code></li>
+</ol>
+
+<h2 id="provisioning-your-ssl-cert">Provisioning your SSL cert</h2>
+
+<p>It is becoming more and more commonplace to block non HTTPS traffic.</p>
+
+<ol>
+  <li>In the <a href="https://aws.amazon.com/console">AWS management console</a>, set your top right data center to <code class="highlighter-rouge">US EAST (N. Virginia)</code>. This is important because CloudFront only uses certs stored there, and AWS will store your cert in the data center you are connected to.</li>
+  <li>Search for the service <code class="highlighter-rouge">Certificate Manager</code></li>
+  <li>You’ll want to add two domain names, <code class="highlighter-rouge">base-domain.com</code>, in my case this was <code class="highlighter-rouge">nimaeskandary.com</code>, and <code class="highlighter-rouge">*.base-domain.com</code>, the wild card is so you can use the cert for any records in your zone, e.g. <code class="highlighter-rouge">www.base-domain.com</code>, <code class="highlighter-rouge">blog.base-domain.com</code></li>
+  <li>When asked, verify that you own the domain through the DNS option, it is very easy and all it will have you do is make a CNAME record in Route 53</li>
+</ol>
+
+<h2 id="setting-up-cloudfront">Setting up CloudFront</h2>
+
+<p>While you could make a CNAME record that routes <code class="highlighter-rouge">www.you-domain.com</code> to <code class="highlighter-rouge">your-account.github.io</code> and be done with it, using CloudFront offers a few advantages:</p>
+
+<ul>
+  <li>
+    <p>It will allow <code class="highlighter-rouge">base-domain.com</code>, to also point to the right place, because your root zone cannot be a CNAME, but AWS lets you have it point to a CloudFront distribution through a special <code class="highlighter-rouge">alias</code> record</p>
+  </li>
+  <li>
+    <p>It will allow you to also serve your SSL cert, without it people couldn’t use HTTPS on your custom domain</p>
+  </li>
+</ul>
+
+<ol>
+  <li>In the <a href="https://aws.amazon.com/console">AWS management console</a>, search for CloudFront</li>
+  <li>Set up a new “Web” distribution</li>
+  <li>For the <code class="highlighter-rouge">origin domain name</code>, put the Github pages domain, in my case it was <code class="highlighter-rouge">nimaeskandary.github.io</code></li>
+  <li>For <code class="highlighter-rouge">origin path</code> don’t put anything</li>
+  <li>For <code class="highlighter-rouge">viewer protocol policy</code> I personally <code class="highlighter-rouge">redirect HTTP to HTTPS</code></li>
+  <li>For <code class="highlighter-rouge">allowed HTTP methods</code> do <code class="highlighter-rouge">GET, HEAD, OPTIONS</code></li>
+  <li>I change the <code class="highlighter-rouge">default TTL</code> to 0 because I want people to see my updates right away</li>
+  <li>In <code class="highlighter-rouge">price class</code> I only use US, Canada, and Europe, really any option is fine</li>
+  <li>For <code class="highlighter-rouge">alternate domain names (CNAMEs)</code> you’ll want any address you think you’ll use. I put down <code class="highlighter-rouge">nimaeskandary.com</code>, <code class="highlighter-rouge">www.nimaeskandary.com</code>, and <code class="highlighter-rouge">blog.nimaeskandary.com</code></li>
+  <li>Choose the Custom SSL cert we made earlier</li>
+  <li>And that’s it, it should take about 15 minutes for it to spin up once you click the finish button</li>
+</ol>
+
+<h2 id="creating-your-dns-records">Creating your DNS records</h2>
+
+<ol>
+  <li>In the <a href="https://aws.amazon.com/console">AWS management console</a>, search for Route 53</li>
+  <li>Create an alias record, with no added record name, this will just make the record named <code class="highlighter-rouge">your-domain.com</code></li>
+  <li>Have the alias record point to your CloudFront domain name, this can be found in the CloudFront management page for the distribution you just made, and will be something like <code class="highlighter-rouge">dn542fesffj83.cloudfront.net</code></li>
+  <li>Optionally, you can also create a CNAME record named <code class="highlighter-rouge">www.</code>, that points to <code class="highlighter-rouge">your-domain.com</code>, that way both <code class="highlighter-rouge">www.your-domain.com</code> and <code class="highlighter-rouge">your-domain.com</code> work. I also added a <code class="highlighter-rouge">blog.</code> record as well</li>
+</ol>
+
+<hr />
+
+<p>All done, hope this was helpful. If this gets outdated feel free to shoot me an email</p>
+
+  </div>
+
+  
+
+  <a class="u-url" href="/2018/02/11/setting-up-a-blog.html" hidden></a>
+</article>
+
+      </div>
+    </main>
+
+    <footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Nima Eskandary&#39;s Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">
+            </li>
+            
+            <li><a class="u-email" href="mailto:nimaesk1@gmail.com">nimaesk1@gmail.com</a></li>
+            
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+  
+  
+  
+  <li><a href="https://github.com/nimaeskandary"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username"> Github </span></a></li>
+  
+  <li><a href="https://www.linkedin.com/in/nimaeskandary"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username"> LinkedIn </span></a></li>
+  
+  <li><a href="https://www.twitter.com/_findingnima"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username"> Twitter </span></a></li>
+  
+  
+  
+</ul>
+
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
